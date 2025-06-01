@@ -1,2 +1,18 @@
 @import "tailwindcss";
+@plugin "flyonui" {
+  themes: soft --default;
+}
+@import "flyonui/variants.css";
+@source "../node_modules/flyonui/flyonui.js";
+@plugin "@iconify/tailwind4";
 @source "../views";
+
+.grand-hotel-regular {
+  font-family: "Grand Hotel", cursive;
+  font-weight: 400;
+  font-style: normal;
+}
+
+.accordion-toggle {
+    @apply text-xs;
+}
