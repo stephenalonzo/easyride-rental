@@ -22,9 +22,9 @@ Route::get('/', function () {
 
 Route::get('/reservations/create', [ReservationController::class, 'create'])->middleware(CheckSession::class);
 
-Route::post('/reservations/reserve', [ReservationController::class, 'store']);
-
 Route::post('/reservations/details', [ReservationController::class, 'details']);
+
+Route::post('/reservations/reserve', [ReservationController::class, 'store']);
 
 Route::get('/reservations/search', [ReservationController::class, 'index']);
 Route::post('/reservations/search', [ReservationController::class, 'search']);

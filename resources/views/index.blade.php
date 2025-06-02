@@ -40,6 +40,7 @@
                 <div class="w-96">
                     <label class="label-text" for="renterAge">Renter's Age</label>
                     <select class="select" id="renterAge" name="age" required>
+                        <option selected disabled>Select Age</option>
                         <option value="30+">30+</option>
                         <option value="29">29</option>
                         <option value="28">28</option>

@@ -1,17 +1,25 @@
 <x-layout>
     <form action="/reservations/reserve" method="POST" class="mx-auto max-w-7xl grid grid-cols-4 gap-8">
         @csrf
-        <div class="col-span-1">
+        <div class="{{ $request->pickup ? 'col-span-1' : 'hidden' }}">
             <div class="card">
                 <div class="card-body">
                     <h5 class="card-title mb-2.5">Rental Details</h5>
                     <h6 class="text-sm font-bold">Dates & Times</h6>
-                    @if (session()->has(['pickup', 'dropoff']))
-                        <ul>
-                            <li>{{ date('D, M d, Y @ H:i A', strtotime(session('pickup'))) }}</li>
-                            <li>{{ date('D, M d, Y @ H:i A', strtotime(session('dropoff'))) }}</li>
-                        </ul>
-                    @endif
+                    <ul>
+                        <li>
+                            <span>{{ date('D, M d, Y @ H:i A', strtotime($request->pickup)) }}</span>
+                            <input type="text" name="pickup[]"
+                                class="w-full no-focus {{ $request->has(['pickup', 'dropoff']) ? 'hidden' : '' }}"
+                                aria-label="input" value="{{ $request->pickup }}" readonly required />
+                        </li>
+                        <li>
+                            <span>{{ date('D, M d, Y @ H:i A', strtotime($request->dropoff)) }}</span>
+                            <input type="text" name="dropoff[]"
+                                class="w-full no-focus {{ $request->has(['dropoff', 'dropoff']) ? 'hidden' : '' }}"
+                                aria-label="input" value="{{ $request->dropoff }}" readonly required />
+                        </li>
+                    </ul>
                 </div>
                 <div class="card-body">
                     <h6 class="text-sm font-bold">Pick-up & Return Location</h6>
@@ -19,15 +27,46 @@
                 </div>
                 <div class="card-body">
                     <h6 class="text-sm font-bold">Additional Details</h6>
-                    <span>Renters Age: @if (session()->has('age'))
-                            {{ session('age') }}
-                        @endif
-                    </span>
+                    @if ($request->has('age'))
+                        <div class="grid grid-cols-5 items-center justify-center">
+                            <span class="col-span-2">Renters Age:</span>
+                            <input type="text" name="age[]" class="w-sm no-focus" aria-label="input"
+                                value="{{ $request->age }}" readonly required />
+                        </div>
+                    @endif
                 </div>
             </div>
         </div>
-        <div class="col-span-3 bg-base-100 w-full rounded-lg shadow-base-300/20 shadow-sm">
+        <div
+            class="{{ $request->has(['pickup', 'dropoff', 'age']) ? 'col-span-3' : 'col-span-4' }} bg-base-100 w-full rounded-lg shadow-base-300/20 shadow-sm">
             <h5 class="bg-base-300/10 rounded-t-lg p-4 text-xl font-bold">Reservation Form</h5>
+            @if (!$request->has(['pickup', 'dropoff', 'age']))
+                <div class="grid grid-cols-3 gap-4 p-4 w-fit">
+                    <div class="w-96">
+                        <label class="label-text" for="pickupTime">Pick-up Time</label>
+                        <input type="datetime-local" class="input" id="pickupTime" name="pickup[]"
+                            {{ $request->has(['pickup', 'dropoff', 'age']) ? '' : 'required' }} />
+                    </div>
+                    <div class="w-96">
+                        <label class="label-text" for="dropTime">Drop-off Time</label>
+                        <input type="datetime-local" class="input" id="dropTie" name="dropoff[]"
+                            {{ $request->has(['pickup', 'dropoff', 'age']) ? '' : 'required' }} />
+                    </div>
+                    <div class="w-96">
+                        <label class="label-text" for="renterAge">Renter's Age</label>
+                        <select class="select" id="renterAge" name="age[]"
+                            {{ $request->has(['pickup', 'dropoff', 'age']) ? '' : 'required' }}>
+                            <option selected disabled>Select Age</option>
+                            <option value="30+">30+</option>
+                            <option value="29">29</option>
+                            <option value="28">28</option>
+                            <option value="27">27</option>
+                            <option value="26">26</option>
+                            <option value="25">25</option>
+                        </select>
+                    </div>
+                </div>
+            @endif
             <div class="w-full p-4">
                 <h6 class="text-lg font-semibold">1. Contact Details</h6>
             </div>
@@ -71,7 +110,8 @@
             <div class="grid grid-cols-2 gap-4 p-4 w-fit">
                 <div class="col-span-2 space-y-8">
                     <div class="flex items-center gap-2">
-                        <input type="checkbox" name="opt_protection[]" class="switch switch-primary" value="1" />
+                        <input type="checkbox" name="opt_protection[]" class="switch switch-primary"
+                            value="1" />
                         <span>Damage Waiver ($18.95/Day)</span>
                         <div class="tooltip [--placement:bottom]">
                             <div class="tooltip-toggle">
@@ -99,7 +139,8 @@
                         </div>
                     </div>
                     <div class="flex items-center gap-2">
-                        <input type="checkbox" name="opt_protection[]" class="switch switch-primary" value="2" />
+                        <input type="checkbox" name="opt_protection[]" class="switch switch-primary"
+                            value="2" />
                         <span>Personal Accident Insurance ($10.95/Day)</span>
                         <div class="tooltip [--placement:bottom]">
                             <div class="tooltip-toggle">
@@ -127,7 +168,8 @@
                         </div>
                     </div>
                     <div class="flex items-center gap-2">
-                        <input type="checkbox" name="opt_protection[]" class="switch switch-primary" value="3" />
+                        <input type="checkbox" name="opt_protection[]" class="switch switch-primary"
+                            value="3" />
                         <span>Zero Deductible Coverage ($26.95/Day)</span>
                         <div class="tooltip [--placement:bottom]">
                             <div class="tooltip-toggle">
@@ -555,12 +597,12 @@
     </form>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script type="text/javascript">
-        if (performance.navigation.type == performance.navigation.TYPE_RELOAD || performance.navigation.type ==
-            performance.navigation.TYPE_BACK_FORWARD) {
-            window.location.href = "{{ route('flush') }}"
-        } else {
-            console.info("This page is not reloaded");
-        }
+        // if (performance.navigation.type == performance.navigation.TYPE_RELOAD || performance.navigation.type ==
+        //     performance.navigation.TYPE_BACK_FORWARD) {
+        //     window.location.href = "{{ route('flush') }}"
+        // } else {
+        //     console.info("This page is not reloaded");
+        // }
         $(document).ready(function() {
 
             populateCountries("country", "state");

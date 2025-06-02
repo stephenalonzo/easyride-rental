@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\ShowReservation;
+use App\Http\Requests\StoreReservation;
 use App\Models\Reservation;
 use App\Models\Vehicle;
+use Hamcrest\Type\IsString;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Session;
@@ -23,56 +26,33 @@ class ReservationController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
+    public function create(Request $request)
     {
-        return view('reservations.create');
+        return view('reservations.create', [
+            'request' => $request
+        ]);
     }
 
     // Flash Rental Details
     public function details(Request $request) {
-        $validated = $request->validate([
-            'pickup' => 'required',
-            'dropoff' => 'required',
-            'age' => 'required'
+        return view('/reservations/create', [
+            'request' => $request
         ]);
-
-        // $action = Route::getCurrentRoute()->getActionMethod();
-
-        // if ($request->method() == 'POST' && $action == 'details') {
-        //     Session::put('pickup', $validated['pickup']);
-        //     Session::put('dropoff', $validated['dropoff']);
-        //     Session::put('age', $validated['age']);
-        // }
-        
-        return redirect('/reservations/create');
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(StoreReservation $request)
     {
-        $validated = $request->validate([
-            'vehicle_id' => 'required',
-            'name' => 'required',
-            'number' => 'required',
-            'email' => ['required', 'email'],
-            'license_number' => 'required',
-            'issuing_state' => 'required',
-            'exp_date' => 'required',
-            'issue_date' => 'required',
-            'dob' => 'required',
-            'country' => 'required',
-            'state' => 'required',
-            'city' => 'required',
-            'street_address' => 'required',
-            'zip' => 'required'
-        ]);
+        $validated = $request->validated();
 
-        $validated['pickup'] = session('pickup');
-        $validated['dropoff'] = session('dropoff');
-        $validated['age'] = session('age');
-        $validated['confirm_number'] = '234jgdsfu';
+        $validated['confirm_number'] = bin2hex(random_bytes(10));
+        $validated['pickup'] = implode(" ", $validated['pickup']);
+        $validated['dropoff'] = implode(" ", $validated['dropoff']);
+        $validated['age'] = implode(" ", $validated['age']);
+        $validated['opt_protection'] = isset($validated['opt_protection']) ? implode(", ", $validated['opt_protection']) : null;
+        $validated['equipment'] = isset($validated['equipment']) ? implode(", ", $validated['equipment']) : null;
 
         Reservation::create($validated);
 
@@ -85,12 +65,8 @@ class ReservationController extends Controller
         return redirect('/');
     }
 
-    public function search(Request $request) {
-        $validated = $request->validate([
-            'confirm_number' => 'required',
-            'name' => 'required',
-            'number' => 'required'
-        ]);
+    public function search(ShowReservation $request) {
+        $validated = $request->validated();
 
         $checkReservation = [
             ['confirm_number', '=', $validated['confirm_number']],
@@ -108,7 +84,7 @@ class ReservationController extends Controller
             }
         }
         
-        return redirect('/reservations');
+        return redirect('/reservations/search');
     }
 
     /**
