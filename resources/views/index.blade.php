@@ -59,34 +59,39 @@
                 <div class="carousel h-80 flex overflow-y-auto snap-x snap-mandatory overflow-x-auto">
                     <div class="carousel-body h-full gap-2 opacity-0">
                         <div class="carousel-slide snap-center">
-                            <a href="#" class="flex h-full flex-col justify-center items-center p-6 space-y-4">
+                            <a href="/vehicles/1"
+                                class="flex h-full flex-col justify-center items-center p-6 space-y-4">
                                 <img class="self-center" src="{{ asset('images/truck-ford-f150.avif') }}"
                                     alt="">
                                 <span class="self-center text-lg font-medium">Pick-up Truck</span>
                             </a>
                         </div>
                         <div class="carousel-slide snap-center">
-                            <a href="#" class="flex h-full flex-col justify-center items-center p-6 space-y-4">
+                            <a href="/vehicles/2"
+                                class="flex h-full flex-col justify-center items-center p-6 space-y-4">
                                 <img class="self-center" src="{{ asset('images/compact-nissan-versa.avif') }}"
                                     alt="">
                                 <span class="self-center text-lg font-medium">Compact Car</span>
                             </a>
                         </div>
                         <div class="carousel-slide snap-center">
-                            <a href="#" class="flex h-full flex-col justify-center items-center p-6 space-y-4">
+                            <a href="/vehicles/3"
+                                class="flex h-full flex-col justify-center items-center p-6 space-y-4">
                                 <img class="self-center" src="{{ asset('images/luxury-cadi-xts.avif') }}"
                                     alt="">
                                 <span class="self-center text-lg font-medium">Luxury Car</span>
                             </a>
                         </div>
                         <div class="carousel-slide snap-center">
-                            <a href="#" class="flex h-full flex-col justify-center items-center p-6 space-y-4">
+                            <a href="/vehicles/4"
+                                class="flex h-full flex-col justify-center items-center p-6 space-y-4">
                                 <img class="self-center" src="{{ asset('images/suv-santa-fe.avif') }}" alt="">
                                 <span class="self-center text-lg font-medium">Standard SUV</span>
                             </a>
                         </div>
                         <div class="carousel-slide snap-center">
-                            <a href="#" class="flex h-full flex-col justify-center items-center p-6 space-y-4">
+                            <a href="/vehicles/5"
+                                class="flex h-full flex-col justify-center items-center p-6 space-y-4">
                                 <img class="self-center" src="{{ asset('images/van-chrysler-pacifica.avif') }}"
                                     alt="">
                                 <span class="self-center text-lg font-medium">Mini Van</span>

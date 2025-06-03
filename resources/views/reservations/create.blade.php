@@ -94,12 +94,14 @@
                 <div class="w-96 flex flex-row items-end justify-center space-x-2">
                     <div class="flex flex-col w-full">
                         <label class="label-text" for="carType">Type</label>
-                        <select class="select" name="vehicle_id" required>
-                            <option value="1">Pick-up Truck (Nissan Frontier or similar)</option>
-                            <option value="2">Compact Car (Nissan Versa or similar)</option>
-                            <option value="3">Luxury Car (BMW 3 Series or similar)</option>
-                            <option value="4">Standard SUV (Mitsubishi Outlander or similar)</option>
-                            <option value="5">Mini Van (Toyota Sienna or similar)</option>
+                        <select
+                            class="select {{ $request->vehicle_id ? 'animate-[pulse_1s_ease-in-out_3] border-2 border-primary' : '' }}"
+                            name="vehicle_id" required>
+                            @foreach ($vehicles as $vehicle)
+                                <option value="{{ $vehicle->id }}"
+                                    {{ $request->vehicle_id == $vehicle->id ? 'selected' : '' }}>
+                                    {{ $vehicle->vehicle . ' (' . $vehicle->model_type . ') ' }}</option>
+                            @endforeach
                         </select>
                     </div>
                 </div>
@@ -597,12 +599,6 @@
     </form>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script type="text/javascript">
-        // if (performance.navigation.type == performance.navigation.TYPE_RELOAD || performance.navigation.type ==
-        //     performance.navigation.TYPE_BACK_FORWARD) {
-        //     window.location.href = "{{ route('flush') }}"
-        // } else {
-        //     console.info("This page is not reloaded");
-        // }
         $(document).ready(function() {
 
             populateCountries("country", "state");

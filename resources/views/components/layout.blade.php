@@ -9,6 +9,10 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Grand+Hotel&display=swap" rel="stylesheet">
+    <link href="
+https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.7.2/css/fontawesome.min.css
+"
+        rel="stylesheet">
     @vite('resources/css/app.css')
     @vite('resources/js/app.js')
 </head>
@@ -71,7 +75,7 @@
                                         <li>
                                             <a href="#" class="menu-title font-bold">Vehicles for Rent</a>
                                             <ul class="menu">
-                                                <li><a href="#">Cars, SUVs, Trucks & Vans</a></li>
+                                                <li><a href="/vehicles">Cars, SUVs, Trucks & Vans</a></li>
                                             </ul>
                                         </li>
                                     </ul>
@@ -165,6 +169,10 @@
             </footer>
         </div>
     </div>
+    <script src="
+        https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.7.2/js/all.min.js
+        "></script>
+
 </body>
 
 </html>

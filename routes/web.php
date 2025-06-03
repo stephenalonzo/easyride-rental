@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Middleware\ReservationDetail;
 use App\Http\Controllers\ReservationController;
+use App\Http\Controllers\VehicleController;
 use App\Http\Middleware\CheckSession;
 
 /*
@@ -29,6 +30,5 @@ Route::post('/reservations/reserve', [ReservationController::class, 'store']);
 Route::get('/reservations/search', [ReservationController::class, 'index']);
 Route::post('/reservations/search', [ReservationController::class, 'search']);
 
-Route::get('/reservations/{reservation:confirm_number}', [ReservationController::class, 'show'])->name('show');
-
-Route::get('/flush', [ReservationController::class, 'flush'])->name('flush');
+Route::get('/vehicles', [VehicleController::class, 'index']);
+Route::get('/vehicles/{vehicle}', [VehicleController::class, 'show']);

@@ -2,16 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Vehicle;
+use App\Models\Reservation;
+use Illuminate\Http\Request;
 use App\Http\Requests\ShowReservation;
 use App\Http\Requests\StoreReservation;
-use App\Models\Reservation;
-use App\Models\Vehicle;
-use Hamcrest\Type\IsString;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Route;
-use Illuminate\Support\Facades\Session;
-
-use function PHPUnit\Framework\isEmpty;
 
 class ReservationController extends Controller
 {
@@ -29,14 +24,16 @@ class ReservationController extends Controller
     public function create(Request $request)
     {
         return view('reservations.create', [
-            'request' => $request
+            'request' => $request,
+            'vehicles' => Vehicle::all()
         ]);
     }
 
     // Flash Rental Details
     public function details(Request $request) {
         return view('/reservations/create', [
-            'request' => $request
+            'request' => $request,
+            'vehicles' => Vehicle::all()
         ]);
     }
 
@@ -57,12 +54,6 @@ class ReservationController extends Controller
         Reservation::create($validated);
 
         return redirect('/')->with('message', 'Reservation booked!');
-    }
-
-    // Flash Pick-up/Drop-off Location
-    public function flush() {
-        Session::flush();
-        return redirect('/');
     }
 
     public function search(ShowReservation $request) {
