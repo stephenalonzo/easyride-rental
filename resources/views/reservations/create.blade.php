@@ -1,7 +1,7 @@
 <x-layout>
     <form action="/reservations/reserve" method="POST" class="mx-auto max-w-7xl grid grid-cols-4 gap-8">
         @csrf
-        <div class="{{ $request->pickup ? 'col-span-1' : 'hidden' }}">
+        <div class="{{ $request->has(['pickup', 'dropoff', 'age']) ? 'col-span-1' : 'hidden' }}">
             <div class="card">
                 <div class="card-body">
                     <h5 class="card-title mb-2.5">Rental Details</h5>
@@ -49,7 +49,7 @@
                     </div>
                     <div class="w-96">
                         <label class="label-text" for="dropTime">Drop-off Time</label>
-                        <input type="datetime-local" class="input" id="dropTie" name="dropoff[]"
+                        <input type="datetime-local" class="input" id="dropTime" name="dropoff[]"
                             {{ $request->has(['pickup', 'dropoff', 'age']) ? '' : 'required' }} />
                     </div>
                     <div class="w-96">
@@ -96,7 +96,7 @@
                         <label class="label-text" for="carType">Type</label>
                         <select
                             class="select {{ $request->vehicle_id ? 'animate-[pulse_1s_ease-in-out_3] border-2 border-primary' : '' }}"
-                            name="vehicle_id" required>
+                            name="vehicle_id" id="carType" required>
                             @foreach ($vehicles as $vehicle)
                                 <option value="{{ $vehicle->id }}"
                                     {{ $request->vehicle_id == $vehicle->id ? 'selected' : '' }}>
@@ -539,8 +539,8 @@
                     </select>
                 </div>
                 <div class="w-96">
-                    <label class="label-text" for="phoneNumber">Driver's License Number</label>
-                    <input type="tel" name="license_number" class="input" id="phoneNumber" required />
+                    <label class="label-text" for="licenseNumber">Driver's License Number</label>
+                    <input type="tel" name="license_number" class="input" id="licenseNumber" required />
                 </div>
                 <div class="w-96">
                     <label class="label-text" for="expDate">Driver's License Expiration Date</label>

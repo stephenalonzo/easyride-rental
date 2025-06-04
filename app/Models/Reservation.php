@@ -32,4 +32,9 @@ class Reservation extends Model
         'street_address_2',
         'zip'
     ];
+
+    protected $casts = [
+        'opt_protection' => 'array',
+        'equipment' => 'array'
+    ];
 }

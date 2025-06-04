@@ -7,6 +7,8 @@ use App\Models\Reservation;
 use Illuminate\Http\Request;
 use App\Http\Requests\ShowReservation;
 use App\Http\Requests\StoreReservation;
+use App\Models\VehicleEquipment;
+use App\Models\VehicleProtectionProduct;
 
 class ReservationController extends Controller
 {
@@ -48,8 +50,6 @@ class ReservationController extends Controller
         $validated['pickup'] = implode(" ", $validated['pickup']);
         $validated['dropoff'] = implode(" ", $validated['dropoff']);
         $validated['age'] = implode(" ", $validated['age']);
-        $validated['opt_protection'] = isset($validated['opt_protection']) ? implode(", ", $validated['opt_protection']) : null;
-        $validated['equipment'] = isset($validated['equipment']) ? implode(", ", $validated['equipment']) : null;
 
         Reservation::create($validated);
 
@@ -67,10 +67,20 @@ class ReservationController extends Controller
         
         $reservations = Reservation::where($checkReservation)->get();
 
+        
         foreach ($reservations as $reservation) {
             if ($reservation['confirm_number'] == $validated['confirm_number'] && $reservation['name'] == $validated['name'] && $reservation['number'] == $validated['number']) {
-                return view('reservations.show', [
-                    'reservation' => $reservation
+                $protections = VehicleProtectionProduct::where('id', 1)
+                    ->orWhere('id', 2)
+                    ->orWhere('id', 3)->get();
+
+                $equipments = VehicleEquipment::where('id', 1)
+                    ->orWhere('id', 2)
+                    ->orWhere('id', 3)->get();
+                    return view('reservations.show', [
+                    'reservation' => $reservation,
+                    'protections' => $protections,
+                    'equipments' => $equipments
                 ]);
             }
         }

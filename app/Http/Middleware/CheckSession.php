@@ -16,9 +16,6 @@ class CheckSession
      */
     public function handle(Request $request, Closure $next): Response
     {
-        // if ($request->session()->exists(['pickup', 'dropoff', 'age'])) {
-        // }
-        return $next($request);
-        // return redirect('/');            
+        return $next($request);     
     }
 }

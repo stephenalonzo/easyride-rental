@@ -3,7 +3,10 @@
 namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+
+use App\Models\VehicleEquipment;
 use App\Models\VehicleModel;
+use App\Models\VehicleProtectionProduct;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -113,7 +116,7 @@ class DatabaseSeeder extends Seeder
             'vehicle_id' => 5
         ]);
         VehicleModel::factory()->create([
-            'model' => '2023 Volkswagen ID.Buzz Microbus',
+            'model' => '2023 Volkswagen Microbus',
             'capacity' => '7 People',
             'transmission' => 'Automatic',
             'bags' => '5',
@@ -207,6 +210,38 @@ class DatabaseSeeder extends Seeder
             'city' => 'San Jose',
             'street_address' => '1234 Some St',
             'zip' => '95123'
+        ]);
+
+        VehicleProtectionProduct::factory()->create([
+            'title' => 'Damage Waiver',
+            'price' => '$18.95',
+            'description' => 'Collision Damage Waiver (CDW) is not insurance. The purchase of CDW is optional for Economy to Full size and mandatory for Premium and above. You may purchase CDW for an additional fee. If you purchase CDW, we agree, subject to the actions listed on the rental agreement that invalidate CDW, to contractually waive your responsibility for all or part of the cost of damage to, or loss of the vehicle. A deductible of $1000 USD applies. If CDW is declined, renter is responsible for the full value of damage to the vehicle.'
+        ]);
+        VehicleProtectionProduct::factory()->create([
+            'title' => 'Personal Accident Insurance',
+            'price' => '$10.95',
+            'description' => 'The purchase of Personal Accident Insurance is optional and not required to rent a vehicle. Personal Accident Insurance covers ambulance service, doctors, hospitalization and nurses for each passenger in the vehicle, with a maximum limit of $6,900 USD (200,00 DOP) for each passenger in the vehicle including the driver, up to maximum passenger allowed in the vehicle. Coverage also includes Accidental Death coverage of $17,250 USD (500,00 DOP).'
+        ]);
+        VehicleProtectionProduct::factory()->create([
+            'title' => 'Zero Deductible Coverage',
+            'price' => '$26.95',
+            'description' => "Zero Deductible Coverage is not insurance. The purchase of ZDC is optional for the customer. The customer may purchase ZDC for an additional fee. If you purchase ZDC, we agree, subject to the actions listed on the rental agreement that invalidate the ZDC, to contractually waiver your responsibility for all costs of damage that may occur to the rental vehicle. When purchased with Collision Damage Waiver or Third Party Liability, this coverage reduces the customer's deductible to 0.00 USD."
+        ]);
+
+        VehicleEquipment::factory()->create([
+            'title' => 'Baby Seat',
+            'price' => '$6.00',
+            'description' => 'Our baby seats conform to government standards. These baby seats are for newborn babies up to 13kg/28lbs (0 - 15 months). They are compatible with a 3-point seat belt, belt base or Isofix base.'
+        ]);
+        VehicleEquipment::factory()->create([
+            'title' => 'Child/Toddler Seat',
+            'price' => '$6.00',
+            'description' => 'Our child seats conform to government standards. These child seats are for children between 9kg/20lbs to 18kg/40lbs (9 months to 4 years). They are compatible with a 3-point seat belt, belt base, or Isofix base with a multi-position reclination.'
+        ]);
+        VehicleEquipment::factory()->create([
+            'title' => 'Booster Seat',
+            'price' => '$6.00',
+            'description' => 'Our booster seats conform to government standards. These booster seats are highly versatile for children ranging from 15kg/33lbs to 36kg/80lbs (4 - 12 years). They are compatible with a 3-point seat belt, belt base, or Isofix base.'
         ]);
     }
 }
