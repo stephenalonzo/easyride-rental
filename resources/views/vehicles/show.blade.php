@@ -35,8 +35,7 @@
                                 @endforeach
                             </ul>
                             <div class="card-actions">
-                                <button type="submit" class="btn btn-primary">Reserve a
-                                    {{ $model->model }}</button>
+                                <button type="submit" class="btn btn-primary">Reserve Similar Vehicle</button>
                             </div>
                         </div>
                     </div>

@@ -20,6 +20,8 @@ return new class extends Migration
             $table->dateTime('pickup');
             $table->dateTime('dropoff');
             $table->string('age');
+            $table->unsignedBigInteger('status');
+            $table->foreign('status')->references('id')->on('statuses');
             $table->string('name');
             $table->string('number');
             $table->string('email');

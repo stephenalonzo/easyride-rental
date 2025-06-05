@@ -15,6 +15,7 @@ class Reservation extends Model
         'pickup',
         'dropoff',
         'age',
+        'status',
         'name',
         'number',
         'email',

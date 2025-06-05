@@ -51,6 +51,9 @@ class ReservationController extends Controller
         $validated['dropoff'] = implode(" ", $validated['dropoff']);
         $validated['age'] = implode(" ", $validated['age']);
 
+        // Reservation Status | pending(default) = 1; received = 2; expired = 3;
+        $validated['status'] = 1;
+
         Reservation::create($validated);
 
         return redirect('/')->with('message', 'Reservation booked!');
@@ -70,9 +73,7 @@ class ReservationController extends Controller
         
         foreach ($reservations as $reservation) {
             if ($reservation['confirm_number'] == $validated['confirm_number'] && $reservation['name'] == $validated['name'] && $reservation['number'] == $validated['number']) {
-                $protections = VehicleProtectionProduct::where('id', 1)
-                    ->orWhere('id', 2)
-                    ->orWhere('id', 3)->get();
+                $protections = VehicleProtectionProduct::where('id', $reservation['opt_protection'])->get();
 
                 $equipments = VehicleEquipment::where('id', 1)
                     ->orWhere('id', 2)
@@ -115,8 +116,12 @@ class ReservationController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Request $request)
     {
-        //
+        $reservation = Reservation::find($request->reservation);
+
+        $reservation->delete();
+
+        return redirect('/reservations/search');
     }
 }

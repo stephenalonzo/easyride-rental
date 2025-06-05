@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\MailController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Middleware\ReservationDetail;
 use App\Http\Controllers\ReservationController;
@@ -29,6 +30,10 @@ Route::post('/reservations/reserve', [ReservationController::class, 'store']);
 
 Route::get('/reservations/search', [ReservationController::class, 'index']);
 Route::post('/reservations/search', [ReservationController::class, 'search']);
+
+Route::post('/reservations/reminder', [MailController::class, 'store']);
+
+Route::delete('/reservations/delete', [ReservationController::class, 'destroy']);
 
 Route::get('/vehicles', [VehicleController::class, 'index']);
 Route::get('/vehicles/{vehicle}', [VehicleController::class, 'show']);
