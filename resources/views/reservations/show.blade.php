@@ -10,6 +10,23 @@
                             {{ $reservation->confirm_number }}
                         </p>
                     </div>
+                    @role('user')
+                        @switch($reservation->status)
+                            @case(1)
+                                <div class="flex items-center space-x-2">
+                                    <a href="/reservations/{{ $reservation->id }}/edit" class="btn btn-accent">Modify</a>
+                                    <form action="/reservations/{{ $reservation->id }}/delete" method="post">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button class="btn btn-warning">Cancel</button>
+                                    </form>
+                                </div>
+                            @break
+
+                            @default
+                        @endswitch
+                    @else
+                    @endrole
                     @role('admin')
                         @switch($reservation->status)
                             @case(2)
@@ -23,14 +40,23 @@
                             @break
 
                             @case(3)
-                                <form action="/reservation/delete" method="post">
+                                <form action="/reservations/delete" method="post">
                                     @csrf
                                     @method('DELETE')
+                                    <input class="no-focus hidden" type="text" name="reservation" value="{{ $reservation->id }}"
+                                        readonly>
                                     <button type="submit" class="btn btn-error">Close Reservation</button>
                                 </form>
                             @break
 
                             @default
+                                <form action="/reservations/update" method="post">
+                                    @csrf
+                                    @method('PUT')
+                                    <input class="no-focus hidden" type="text" name="reservation" value="{{ $reservation->id }}"
+                                        readonly>
+                                    <button type="submit" class="btn btn-success">Confirm Payment</button>
+                                </form>
                         @endswitch
                     @else
                     @endrole
@@ -89,6 +115,34 @@
                                         @endrole
                                 @endswitch
                             </form>
+                        </dd>
+                    </div>
+                    <div class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0 text-base">
+                        <dt class="font-medium text-base-content">Reserved Vehicle</dt>
+                        <dd class="mt-1 text-base-content/80 sm:col-span-2 sm:mt-0">
+                            @switch($reservation->vehicle_id)
+                                @case(1)
+                                    {{ 'Pick-up Truck (Toyota Tacoma or similar)' }}
+                                @break
+
+                                @case(2)
+                                    {{ 'Compact Car (Nissan Sentra or similar)' }}
+                                @break
+
+                                @case(3)
+                                    {{ 'Luxury Car (BM7 Series or similar)' }}
+                                @break
+
+                                @case(4)
+                                    {{ 'Standard SUV (Mitsubishi Outlander or similar)' }}
+                                @break
+
+                                @case(5)
+                                    {{ 'Mini Van (Toyota Sienna or similar)' }}
+                                @break
+
+                                @default
+                            @endswitch
                         </dd>
                     </div>
                     <div class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0 text-base">

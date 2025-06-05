@@ -7,6 +7,7 @@ use App\Models\Reservation;
 use Illuminate\Http\Request;
 use App\Http\Requests\ShowReservation;
 use App\Http\Requests\StoreReservation;
+use App\Models\Country;
 use App\Models\VehicleEquipment;
 use App\Models\VehicleProtectionProduct;
 
@@ -105,26 +106,49 @@ class ReservationController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(Reservation $reservation)
     {
-        //
+        return view('reservations.edit', [
+            'reservation' => $reservation,
+            'vehicles' => Vehicle::all(),
+            'countries' => Country::all()
+        ]);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request)
     {
-        //
+        $validated = $request->validate([
+            'reservation' => 'required'
+        ]);
+
+        Reservation::where('id', $validated['reservation'])->update([
+            'status' => 2
+        ]);
+
+        return redirect('/');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Request $request)
+    public function adminDestroy(Request $request)
     {
-        $reservation = Reservation::find($request->reservation);
+        $validated = $request->validate([
+            'reservation' => 'required'
+        ]);
 
+        $reservation = Reservation::find($validated['reservation']);
+
+        $reservation->delete();
+
+        return redirect('/reservations/search');
+    }
+
+    public function ownerDestroy(Reservation $reservation)
+    {
         $reservation->delete();
 
         return redirect('/reservations/search');

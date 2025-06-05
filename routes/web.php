@@ -35,7 +35,12 @@ Route::post('/reservations/search', [ReservationController::class, 'search']);
 
 Route::post('/reservations/reminder', [MailController::class, 'store']);
 
-Route::delete('/reservations/delete', [ReservationController::class, 'destroy']);
+Route::put('/reservations/update', [ReservationController::class, 'update']);
+Route::delete('/reservations/delete', [ReservationController::class, 'adminDestroy']);
+
+Route::delete('/reservations/{reservation}/delete', [ReservationController::class, 'ownerDestroy']);
+
+Route::get('/reservations/{reservation}/edit', [ReservationController::class, 'edit']);
 
 Route::post('/register/create', [UserController::class, 'store']);
 Route::get('/register', [UserController::class, 'create']);

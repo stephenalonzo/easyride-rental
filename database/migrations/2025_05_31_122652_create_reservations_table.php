@@ -29,8 +29,8 @@ return new class extends Migration
             $table->string('equipment')->nullable();
             $table->string('license_number');
             $table->string('issuing_state');
-            $table->string('exp_date');
-            $table->string('issue_date');
+            $table->date('exp_date');
+            $table->date('issue_date');
             $table->date('dob');
             $table->string('country');
             $table->string('state');
