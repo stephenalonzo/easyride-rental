@@ -1,4 +1,5 @@
 <x-layout>
+    {{-- <a href="{{ url()->previous() }}">Back</a> --}}
     <form action="/reservations/details" method="POST" class="mx-auto max-w-7xl">
         @csrf
         <div class="bg-base-100 w-full rounded-lg shadow-base-300/20 shadow-sm">
@@ -9,7 +10,7 @@
                     <div class="card flex flex-col justify-between h-full sm:max-w-sm">
                         <figure>
                             <img src="{{ asset('images/models/' . $model->id . '.avif') }}" alt="{{ $model->model }}"
-                                class="w-full h-[228px]" />
+                                class="w-96 h-56 object-cover" />
                         </figure>
                         <div class="card-body space-y-3">
                             <h5 class="card-title">{{ $model->model }}</h5>

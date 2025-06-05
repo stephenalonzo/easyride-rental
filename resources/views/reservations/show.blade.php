@@ -49,7 +49,7 @@
                     @default
                         <div class="flex items-center space-x-3">
                             <p class="mt-1 max-w-full text-base-content/80">Status:</p>
-                            <span class="badge badge-soft badge-success">Pending</span>
+                            <span class="badge badge-soft badge-warning">Pending</span>
                         </div>
                 @endswitch
             </div>
@@ -76,10 +76,10 @@
                                     @break
 
                                     @default
-                                        <button type="submit" class="btn btn-accent">
+                                        {{-- <button type="submit" class="btn btn-accent">
                                             <i class="fa-solid fa-bell"></i>
                                             <span>Send Reminder</span>
-                                        </button>
+                                        </button> --}}
                                 @endswitch
                             </form>
                         </dd>

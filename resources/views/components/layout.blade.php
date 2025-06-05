@@ -83,13 +83,22 @@ https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.7.2/css/fontawesome
                             </div>
                         </div>
                     </div>
-                    <div class="navbar-end items-center gap-4">
-                        <p class="text-sm">Don't have an account? <span class="text-primary"><a
-                                    href="#">Register!</a></span></p>
-                        <a class="btn max-md:btn-square btn-primary" href="#">
-                            <span class="max-md:hidden">Login</span>
-                        </a>
-                    </div>
+                    @auth
+                        <div class="navbar-end items-center gap-4">
+                            <p class="text-sm">Welcome, <span class="font-medium">{{ auth()->user()->name }}!</span></p>
+                            <a class="btn max-md:btn-square btn-primary" href="/logout">
+                                <span class="max-md:hidden">Logout</span>
+                            </a>
+                        </div>
+                    @else
+                        <div class="navbar-end items-center gap-4">
+                            <p class="text-sm">Don't have an account? <span class="text-primary"><a
+                                        href="/register">Register!</a></span></p>
+                            <a class="btn max-md:btn-square btn-primary" href="/login">
+                                <span class="max-md:hidden">Login</span>
+                            </a>
+                        </div>
+                    @endauth
                     {{-- Avatar --}}
                     {{-- <div
                         class="dropdown relative inline-flex [--auto-close:inside] [--offset:8] [--placement:bottom-end]">
@@ -170,8 +179,8 @@ https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.7.2/css/fontawesome
         </div>
     </div>
     <script src="
-        https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.7.2/js/all.min.js
-        "></script>
+                                                    https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.7.2/js/all.min.js
+                                                    "></script>
 
 </body>
 

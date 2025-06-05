@@ -119,7 +119,7 @@ class DatabaseSeeder extends Seeder
             'vehicle_id' => 5
         ]);
         VehicleModel::factory()->create([
-            'model' => '2023 Volkswagen Microbus',
+            'model' => '2025 Volkswagen Microbus',
             'capacity' => '7 People',
             'transmission' => 'Automatic',
             'bags' => '5',

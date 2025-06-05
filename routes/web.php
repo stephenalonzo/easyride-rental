@@ -4,8 +4,10 @@ use App\Http\Controllers\MailController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Middleware\ReservationDetail;
 use App\Http\Controllers\ReservationController;
+use App\Http\Controllers\UserController;
 use App\Http\Controllers\VehicleController;
 use App\Http\Middleware\CheckSession;
+use Illuminate\Support\Facades\Auth;
 
 /*
 |--------------------------------------------------------------------------
@@ -34,6 +36,14 @@ Route::post('/reservations/search', [ReservationController::class, 'search']);
 Route::post('/reservations/reminder', [MailController::class, 'store']);
 
 Route::delete('/reservations/delete', [ReservationController::class, 'destroy']);
+
+Route::post('/register/create', [UserController::class, 'store']);
+Route::get('/register', [UserController::class, 'create']);
+
+Route::post('/login/auth', [UserController::class, 'authenticate']);
+Route::get('/login', [UserController::class, 'index']);
+
+Route::get('/logout', [UserController::class, 'destroy']);
 
 Route::get('/vehicles', [VehicleController::class, 'index']);
 Route::get('/vehicles/{vehicle}', [VehicleController::class, 'show']);
