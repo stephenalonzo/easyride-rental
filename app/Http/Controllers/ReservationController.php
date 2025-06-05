@@ -73,15 +73,20 @@ class ReservationController extends Controller
         
         foreach ($reservations as $reservation) {
             if ($reservation['confirm_number'] == $validated['confirm_number'] && $reservation['name'] == $validated['name'] && $reservation['number'] == $validated['number']) {
-                $protections = VehicleProtectionProduct::where('id', $reservation['opt_protection'])->get();
+                $protections = VehicleProtectionProduct::where('id', 1)
+                    ->orWhere('id', 2)
+                    ->orWhere('id', 3)->get();
 
                 $equipments = VehicleEquipment::where('id', 1)
                     ->orWhere('id', 2)
                     ->orWhere('id', 3)->get();
+
+                $user = auth()->user();
                     return view('reservations.show', [
-                    'reservation' => $reservation,
-                    'protections' => $protections,
-                    'equipments' => $equipments
+                        'reservation' => $reservation,
+                        'protections' => $protections,
+                        'equipments' => $equipments,
+                        'user' => $user
                 ]);
             }
         }

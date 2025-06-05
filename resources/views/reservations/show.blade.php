@@ -10,26 +10,30 @@
                             {{ $reservation->confirm_number }}
                         </p>
                     </div>
-                    @switch($reservation->status)
-                        @case(2)
-                            <form action="/reservations/delete" method="post">
-                                @csrf
-                                @method('DELETE')
-                                <input class="no-focus hidden" type="text" name="reservation" value="{{ $reservation->id }}"
-                                    readonly>
-                                <button type="submit" class="btn btn-error">Close Reservation</button>
-                            </form>
-                        @break
+                    @role('admin')
+                        @switch($reservation->status)
+                            @case(2)
+                                <form action="/reservations/delete" method="post">
+                                    @csrf
+                                    @method('DELETE')
+                                    <input class="no-focus hidden" type="text" name="reservation" value="{{ $reservation->id }}"
+                                        readonly>
+                                    <button type="submit" class="btn btn-error">Close Reservation</button>
+                                </form>
+                            @break
 
-                        @case(3)
-                            <form action="/reservation/delete" method="post">
-                                @csrf
-                                <button type="submit" class="btn btn-error">Close Reservation</button>
-                            </form>
-                        @break
+                            @case(3)
+                                <form action="/reservation/delete" method="post">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" class="btn btn-error">Close Reservation</button>
+                                </form>
+                            @break
 
-                        @default
-                    @endswitch
+                            @default
+                        @endswitch
+                    @else
+                    @endrole
                 </div>
                 @switch($reservation->status)
                     @case(2)
@@ -76,10 +80,13 @@
                                     @break
 
                                     @default
-                                        {{-- <button type="submit" class="btn btn-accent">
-                                            <i class="fa-solid fa-bell"></i>
-                                            <span>Send Reminder</span>
-                                        </button> --}}
+                                        @role('admin')
+                                            <button type="submit" class="btn btn-accent">
+                                                <i class="fa-solid fa-bell"></i>
+                                                <span>Send Reminder</span>
+                                            </button>
+                                        @else
+                                        @endrole
                                 @endswitch
                             </form>
                         </dd>
@@ -107,47 +114,57 @@
                                 <div class="w-full">
                                     <span class="font-medium">Optional Protection Products</span>
                                     <ul class="list-disc list-inside">
-                                        @foreach ($reservation->opt_protection as $protection)
-                                            @switch($protection)
-                                                @case(1)
-                                                    <li>{{ 'Damage Waiver ($18.95/Day)' }}</li>
-                                                @break
+                                        @if (is_array($reservation->opt_protection) || is_object($reservation->opt_protection))
+                                            @foreach ($reservation->opt_protection as $protection)
+                                                @switch($protection)
+                                                    @case(1)
+                                                        <li>{{ 'Damage Waiver ($18.95/Day)' }}</li>
+                                                    @break
 
-                                                @case(2)
-                                                    <li>{{ 'Personal Accident Insurance ($10.95/Day)' }}</li>
-                                                @break
+                                                    @case(2)
+                                                        <li>{{ 'Personal Accident Insurance ($10.95/Day)' }}</li>
+                                                    @break
 
-                                                @case(3)
-                                                    <li>{{ 'Zero Deductible Coverage ($26.95/Day)' }}</li>
-                                                @break
+                                                    @case(3)
+                                                        <li>{{ 'Zero Deductible Coverage ($26.95/Day)' }}</li>
+                                                    @break
 
-                                                @default
-                                                    <li>{{ 'N/A' }}</li>
-                                            @endswitch
-                                        @endforeach
+                                                    @default
+                                                @endswitch
+                                            @endforeach
+                                        @else
+                                            <li>N/A</li>
+                                        @endif
                                     </ul>
                                 </div>
                                 <div class="w-full">
                                     <span class="font-medium">Equipment</span>
                                     <ul class="list-disc list-inside">
-                                        @foreach ($reservation->equipment as $equipment)
-                                            @switch($equipment)
-                                                @case(1)
-                                                    <li>{{ 'Baby Seat ($6.00/Day)' }}</li>
-                                                @break
+                                        @if (is_array($reservation->equipment) || is_object($reservation->equipment))
+                                            @foreach ($reservation->equipment as $equipment)
+                                                @switch($equipment)
+                                                    @case(1)
+                                                        <li>{{ 'Baby Seat ($6.00/Day)' }}</li>
+                                                    @break
 
-                                                @case(2)
-                                                    <li>{{ 'Child/Toddler Seat ($6.00/Day' }}</li>
-                                                @break
+                                                    @case(2)
+                                                        <li>{{ 'Child/Toddler Seat ($6.00/Day' }}</li>
+                                                    @break
 
-                                                @case(3)
-                                                    <li>{{ 'Booster Seat ($6.00/Day' }}</li>
-                                                @break
+                                                    @case(3)
+                                                        <li>{{ 'Booster Seat ($6.00/Day' }}</li>
+                                                    @break
 
-                                                @default
-                                                    <li>{{ 'N/A' }}</li>
-                                            @endswitch
-                                        @endforeach
+                                                    @case('NULL')
+                                                        <li>{{ 'Booster Seat ($6.00/Day' }}</li>
+                                                    @break
+
+                                                    @default
+                                                @endswitch
+                                            @endforeach
+                                        @else
+                                            <li>N/A</li>
+                                        @endif
                                     </ul>
                                 </div>
                             </div>

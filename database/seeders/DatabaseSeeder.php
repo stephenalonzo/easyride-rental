@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
+use App\Models\User;
 use App\Models\Status;
 use App\Models\Vehicle;
 use App\Models\Reservation;
@@ -11,6 +12,8 @@ use App\Models\VehicleModel;
 use Illuminate\Database\Seeder;
 use App\Models\VehicleEquipment;
 use App\Models\VehicleProtectionProduct;
+use Spatie\Permission\Models\Permission;
+use Spatie\Permission\Models\Role;
 
 class DatabaseSeeder extends Seeder
 {
@@ -21,10 +24,23 @@ class DatabaseSeeder extends Seeder
     {
         // User::factory(10)->create();
 
-        // User::factory()->create([
-        //     'name' => 'Test User',
-        //     'email' => 'test@example.com',
-        // ]);
+        $user = User::factory()->create([
+            'name' => 'Test User',
+            'email' => 'test@example.com',
+            'password' => bcrypt('password')
+        ]);
+
+        $adminRole = Role::create([
+            'name' => 'admin'
+        ]);
+
+        $adminPermission = Permission::create([
+            'name' => 'close reservations'
+        ]);
+
+        $adminRole->givePermissionTo($adminPermission);
+
+        $user->assignRole($adminRole);
 
         $vehicle = Vehicle::factory()->create([
             'vehicle' => 'Pick-up Truck',
