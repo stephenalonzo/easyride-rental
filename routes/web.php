@@ -30,17 +30,20 @@ Route::post('/reservations/details', [ReservationController::class, 'details']);
 
 Route::post('/reservations/reserve', [ReservationController::class, 'store']);
 
-Route::get('/reservations/search', [ReservationController::class, 'index']);
-Route::post('/reservations/search', [ReservationController::class, 'search']);
+Route::get('/reservations', [ReservationController::class, 'index']);
 
 Route::post('/reservations/reminder', [MailController::class, 'store']);
 
-Route::put('/reservations/update', [ReservationController::class, 'update']);
+Route::put('/reservations/update', [ReservationController::class, 'updateStatus']);
 Route::delete('/reservations/delete', [ReservationController::class, 'adminDestroy']);
 
 Route::delete('/reservations/{reservation}/delete', [ReservationController::class, 'ownerDestroy']);
 
 Route::get('/reservations/{reservation}/edit', [ReservationController::class, 'edit']);
+Route::put('/reservations/{reservation}/update', [ReservationController::class, 'update']);
+
+Route::post('/reservations/search', [ReservationController::class, 'search']);
+Route::get('/reservations/{reservation:confirm_number}', [ReservationController::class, 'show']);
 
 Route::post('/register/create', [UserController::class, 'store']);
 Route::get('/register', [UserController::class, 'create']);

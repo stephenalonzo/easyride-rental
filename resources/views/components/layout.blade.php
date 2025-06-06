@@ -55,7 +55,7 @@ https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.7.2/css/fontawesome
                                             <span class="menu-title font-bold">Car Rental</span>
                                             <ul class="menu">
                                                 <li><a href="/reservations/create">Start a Car Reservation</a></li>
-                                                <li><a href="/reservations/search">View, Modify, or Cancel</a></li>
+                                                <li><a href="/reservations">View, Modify, or Cancel</a></li>
                                             </ul>
                                         </li>
                                     </ul>
@@ -179,8 +179,8 @@ https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.7.2/css/fontawesome
         </div>
     </div>
     <script src="
-                                                    https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.7.2/js/all.min.js
-                                                    "></script>
+                                                        https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.7.2/js/all.min.js
+                                                        "></script>
 
 </body>
 

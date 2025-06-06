@@ -7,6 +7,7 @@ use App\Models\Reservation;
 use Illuminate\Http\Request;
 use App\Http\Requests\ShowReservation;
 use App\Http\Requests\StoreReservation;
+use App\Http\Requests\UpdateReservation;
 use App\Models\Country;
 use App\Models\VehicleEquipment;
 use App\Models\VehicleProtectionProduct;
@@ -17,7 +18,7 @@ class ReservationController extends Controller
      * Display a listing of the resource.
      */
     public function index()
-    {
+    {   
         return view('reservations.index');
     }
 
@@ -71,36 +72,34 @@ class ReservationController extends Controller
         
         $reservations = Reservation::where($checkReservation)->get();
 
-        
         foreach ($reservations as $reservation) {
             if ($reservation['confirm_number'] == $validated['confirm_number'] && $reservation['name'] == $validated['name'] && $reservation['number'] == $validated['number']) {
-                $protections = VehicleProtectionProduct::where('id', 1)
-                    ->orWhere('id', 2)
-                    ->orWhere('id', 3)->get();
-
-                $equipments = VehicleEquipment::where('id', 1)
-                    ->orWhere('id', 2)
-                    ->orWhere('id', 3)->get();
-
-                $user = auth()->user();
-                    return view('reservations.show', [
-                        'reservation' => $reservation,
-                        'protections' => $protections,
-                        'equipments' => $equipments,
-                        'user' => $user
-                ]);
+                return redirect('/reservations/'.$validated['confirm_number']);
             }
         }
-        
-        return redirect('/reservations/search');
     }
 
     /**
      * Display the specified resource.
      */
-    public function show()
+    public function show(Reservation $reservation)
     {
-        //
+        $protections = VehicleProtectionProduct::where('id', 1)
+            ->orWhere('id', 2)
+            ->orWhere('id', 3)->get();
+
+        $equipments = VehicleEquipment::where('id', 1)
+            ->orWhere('id', 2)
+            ->orWhere('id', 3)->get();
+
+        $user = auth()->user();
+        
+        return view('reservations.show', [
+            'reservation' => $reservation,
+            'protections' => $protections,
+            'equipments' => $equipments,
+            'user' => $user
+        ]);
     }
 
     /**
@@ -115,10 +114,26 @@ class ReservationController extends Controller
         ]);
     }
 
+    public function update(UpdateReservation $request, Reservation $reservation) {
+        $validated = $request->validated();
+
+        if (empty($validated['opt_protection'])) {
+            $validated['opt_protection'] = null;
+        } 
+        
+        if (empty($validated['equipment'])) {
+            $validated['equipment'] = null;
+        }
+
+        $reservation->update($validated);
+
+        return redirect('/reservations/'.$reservation->confirm_number);
+    }
+
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request)
+    public function updateStatus(Request $request)
     {
         $validated = $request->validate([
             'reservation' => 'required'

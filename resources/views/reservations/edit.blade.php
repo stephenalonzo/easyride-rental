@@ -1,6 +1,8 @@
 <x-layout>
-    <form action="/reservations/reserve" method="POST" class="mx-auto max-w-7xl grid grid-cols-4 gap-8">
+    <form action="/reservations/{{ $reservation->id }}/update" method="POST"
+        class="mx-auto max-w-7xl grid grid-cols-4 gap-8">
         @csrf
+        @method('PUT')
         <div class="col-span-4 bg-base-100 w-full rounded-lg shadow-base-300/20 shadow-sm">
             <h5 class="bg-base-300/10 rounded-t-lg p-4 text-xl font-bold">Reservation Form</h5>
             <div class="grid grid-cols-3 gap-4 p-4 w-fit">
@@ -179,7 +181,7 @@
                 <div class="col-span-2 space-y-8">
                     <div class="flex items-center gap-2">
                         <input type="checkbox" name="equipment[]" class="switch switch-primary" value="1"
-                            @if (is_array($reservation->equipment)) @if (in_array(2, [$reservation->equipment]) || in_array(2, $reservation->equipment))
+                            @if (is_array($reservation->equipment)) @if (in_array(1, [$reservation->equipment]) || in_array(1, $reservation->equipment))
                                     {{ 'checked' }}
                                 @else
                                     {{ '' }} @endif
@@ -234,7 +236,7 @@
                     </div>
                     <div class="flex items-center gap-2">
                         <input type="checkbox" name="equipment[]" class="switch switch-primary" value="3"
-                            @if (is_array($reservation->equipment)) @if (in_array(2, [$reservation->equipment]) || in_array(2, $reservation->equipment))
+                            @if (is_array($reservation->equipment)) @if (in_array(3, [$reservation->equipment]) || in_array(3, $reservation->equipment))
                                     {{ 'checked' }}
                                 @else
                                     {{ '' }} @endif
