@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\SendReminder;
 use App\Mail\ReservationReminder;
+use App\Models\Reservation;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
 
@@ -27,15 +29,17 @@ class MailController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(SendReminder $request)
     {
-        $validated = $request->validate([
-            'email' => 'required'
-        ]);
-        
-        Mail::to($validated['email'])->send(new ReservationReminder());
+        $validated = $request->validated();
+        $reservation = $validated['confirm_number'];
 
-        return redirect('/');
+        Mail::to($validated['email'])->send(new ReservationReminder($reservation));
+
+        return back()->with([
+            'message' => 'Renter reminded',
+            'subMessage' => 'The renter of this reservation has been notified by email.'
+        ]);
     }
 
     /**

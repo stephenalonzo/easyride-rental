@@ -24,9 +24,10 @@ Route::get('/', function () {
     return view('index');
 })->name('/');
 
-Route::get('/reservations/create', [ReservationController::class, 'create'])->middleware(CheckSession::class);
+Route::get('/reservations/create', [ReservationController::class, 'create']);
+Route::post('/reservations/create', [ReservationController::class, 'create']);
 
-Route::post('/reservations/details', [ReservationController::class, 'details']);
+// Route::post('/reservations/details', [ReservationController::class, 'details']);
 
 Route::post('/reservations/reserve', [ReservationController::class, 'store']);
 
@@ -34,10 +35,10 @@ Route::get('/reservations', [ReservationController::class, 'index']);
 
 Route::post('/reservations/reminder', [MailController::class, 'store']);
 
-Route::put('/reservations/update', [ReservationController::class, 'updateStatus']);
-Route::delete('/reservations/delete', [ReservationController::class, 'adminDestroy']);
+Route::put('/reservations/update', [ReservationController::class, 'confirmPayment']);
 
-Route::delete('/reservations/{reservation}/delete', [ReservationController::class, 'ownerDestroy']);
+Route::delete('/reservations/delete', [ReservationController::class, 'closeReservation']);
+Route::delete('/reservations/{reservation}/delete', [ReservationController::class, 'cancelReservation']);
 
 Route::get('/reservations/{reservation}/edit', [ReservationController::class, 'edit']);
 Route::put('/reservations/{reservation}/update', [ReservationController::class, 'update']);

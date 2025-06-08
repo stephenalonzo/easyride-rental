@@ -9,10 +9,9 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Grand+Hotel&display=swap" rel="stylesheet">
-    <link href="
-https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.7.2/css/fontawesome.min.css
-"
+    <link href=" https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.7.2/css/fontawesome.min.css"
         rel="stylesheet">
+    <script src="//unpkg.com/alpinejs" defer></script>
     @vite('resources/css/app.css')
     @vite('resources/js/app.js')
 </head>
@@ -177,10 +176,9 @@ https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.7.2/css/fontawesome
                 </nav>
             </footer>
         </div>
+        <x-flash-message></x-flash-message>
     </div>
-    <script src="
-                                                        https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.7.2/js/all.min.js
-                                                        "></script>
+    <script src=" https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.7.2/js/all.min.js"></script>
 
 </body>
 

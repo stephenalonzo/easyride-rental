@@ -1,6 +1,6 @@
 <x-layout>
     {{-- <a href="{{ url()->previous() }}">Back</a> --}}
-    <form action="/reservations/details" method="POST" class="mx-auto max-w-7xl">
+    <form action="/reservations/create" method="POST" class="mx-auto max-w-7xl">
         @csrf
         <div class="bg-base-100 w-full rounded-lg shadow-base-300/20 shadow-sm">
             <h5 class="bg-base-300/10 rounded-t-lg p-4 text-xl font-bold">{{ $vehicle->vehicle }}</h5>

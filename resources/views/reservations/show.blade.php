@@ -1,6 +1,7 @@
 <x-layout>
     <div class="mx-auto max-w-7xl">
         @csrf
+        <a href="{{ url()->previous() }}" class="btn btn-primary">Back</a>
         <div class="w-full p-4">
             <div class="px-4 sm:px-0">
                 <div class="flex items-center justify-between">
@@ -98,6 +99,8 @@
                                 @csrf
                                 <input class="no-focus" type="email" name="email" value="{{ $reservation->email }}"
                                     readonly>
+                                <input class="hidden" type="text" name="confirm_number"
+                                    value="{{ $reservation->confirm_number }}" readonly>
                                 @switch($reservation->status)
                                     @case(2)
                                     @break

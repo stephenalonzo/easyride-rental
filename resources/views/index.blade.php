@@ -26,7 +26,7 @@
             </p>
         </div>
         <div class="flex items-center justify-center">
-            <form action="/reservations/details" method="post"
+            <form action="/reservations/create" method="post"
                 class="max-w-2/3 flex flex-row items-end justify-center space-x-4">
                 @csrf
                 <div class="w-96">

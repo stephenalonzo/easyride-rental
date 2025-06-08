@@ -2,14 +2,18 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\CloseReservation;
+use App\Models\Country;
 use App\Models\Vehicle;
 use App\Models\Reservation;
 use Illuminate\Http\Request;
+use App\Models\VehicleEquipment;
+use App\Http\Requests\UpdateStatus;
+use App\Http\Requests\ConfirmPayment;
+use App\Http\Requests\GetReservation;
 use App\Http\Requests\ShowReservation;
 use App\Http\Requests\StoreReservation;
 use App\Http\Requests\UpdateReservation;
-use App\Models\Country;
-use App\Models\VehicleEquipment;
 use App\Models\VehicleProtectionProduct;
 
 class ReservationController extends Controller
@@ -25,17 +29,9 @@ class ReservationController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create(Request $request)
+    public function create(GetReservation $request)
     {
         return view('reservations.create', [
-            'request' => $request,
-            'vehicles' => Vehicle::all()
-        ]);
-    }
-
-    // Flash Rental Details
-    public function details(Request $request) {
-        return view('/reservations/create', [
             'request' => $request,
             'vehicles' => Vehicle::all()
         ]);
@@ -58,7 +54,10 @@ class ReservationController extends Controller
 
         Reservation::create($validated);
 
-        return redirect('/')->with('message', 'Reservation booked!');
+        return redirect('/')->with([
+            'message' => 'Reservation booked',
+            'subMessage' => 'You will receive an email with details of your reservation.'
+        ]);
     }
 
     public function search(ShowReservation $request) {
@@ -77,6 +76,8 @@ class ReservationController extends Controller
                 return redirect('/reservations/'.$validated['confirm_number']);
             }
         }
+
+        return back();
     }
 
     /**
@@ -127,45 +128,48 @@ class ReservationController extends Controller
 
         $reservation->update($validated);
 
-        return redirect('/reservations/'.$reservation->confirm_number);
+        return redirect('/reservations/'.$reservation->confirm_number)->with([
+            'message' => 'Changes saved',
+            'subMessage' => 'Your reservation modifications have been saved.'
+        ]);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function updateStatus(Request $request)
+    public function confirmPayment(ConfirmPayment $request)
     {
-        $validated = $request->validate([
-            'reservation' => 'required'
-        ]);
+        $validated = $request->validated();
 
         Reservation::where('id', $validated['reservation'])->update([
             'status' => 2
         ]);
 
-        return redirect('/');
+        $reservations = Reservation::where('id', $validated['reservation'])->get();
+
+        foreach ($reservations as $reservation) {
+            return redirect('/reservations/'.$reservation['confirm_number']);
+        }
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function adminDestroy(Request $request)
+    public function closeReservation(CloseReservation $request)
     {
-        $validated = $request->validate([
-            'reservation' => 'required'
-        ]);
+        $validated = $request->validated();
 
         $reservation = Reservation::find($validated['reservation']);
 
         $reservation->delete();
 
-        return redirect('/reservations/search');
+        return redirect('/reservations');
     }
 
-    public function ownerDestroy(Reservation $reservation)
+    public function cancelReservation(Reservation $reservation)
     {
         $reservation->delete();
 
-        return redirect('/reservations/search');
+        return redirect('/reservations');
     }
 }
