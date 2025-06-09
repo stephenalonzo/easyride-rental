@@ -1,4 +1,4 @@
-<x-layout>
+<x-auth-layout>
     <form action="/reservations/search" method="POST" class="mx-auto max-w-7xl">
         @csrf
         <div class="bg-base-100 w-full rounded-lg shadow-base-300/20 shadow-sm">
@@ -23,4 +23,4 @@
             <button type="submit" class="btn btn-primary m-4">Search</button>
         </div>
     </form>
-</x-layout>
+</x-auth-layout>

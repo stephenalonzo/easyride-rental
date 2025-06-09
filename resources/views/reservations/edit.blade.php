@@ -1,4 +1,4 @@
-<x-layout>
+<x-auth-layout>
     <form action="/reservations/{{ $reservation->id }}/update" method="POST"
         class="mx-auto max-w-7xl grid grid-cols-4 gap-8">
         @csrf
@@ -283,4 +283,4 @@
 
     <script type="text/javascript"
         src="https://www.cssscript.com/demo/generic-country-state-dropdown-list-countries-js/countries.js"></script>
-</x-layout>
+</x-auth-layout>

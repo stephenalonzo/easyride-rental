@@ -1062,13 +1062,13 @@ Constrain images and videos to the parent width and preserve their intrinsic asp
     <div class="reservation-reminder">
         <div>
             <h2>Reservation Reminder</h2>
-            <p>This is an email to remind you about your reservation. Confirmation number:
-                <span>{{ $reservation }}</span>
+            <p>This is an email to remind you about your reservation.</p>
+            <p>Confirmation number: <span>{{ $confirm_number }}</span>
             </p>
             <p>Please notify EasyRide Rental about the status of your reservation, or simply cancel the
                 reservation.
             </p>
-            <a href="http://127.0.0.1:8000/reservations/{{ $reservation }}">View Reservation</a>
+            <a href="http://127.0.0.1:8000/reservations/{{ $confirm_number }}">View Reservation</a>
         </div>
     </div>
 </body>

@@ -1,4 +1,4 @@
-<x-auth-layout>
+<x-guest-layout>
     <form action="/login/auth" method="POST" class="mx-auto w-1/4 flex flex-col items-center space-y-5">
         @csrf
         <a class="link link-primary text-4xl font-bold no-underline grand-hotel-regular" href="/">
@@ -23,4 +23,4 @@
             </div>
         </div>
     </form>
-</x-auth-layout>
+</x-guest-layout>

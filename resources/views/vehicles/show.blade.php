@@ -1,4 +1,4 @@
-<x-layout>
+<x-auth-layout>
     {{-- <a href="{{ url()->previous() }}">Back</a> --}}
     <form action="/reservations/create" method="POST" class="mx-auto max-w-7xl">
         @csrf
@@ -44,4 +44,4 @@
             </div>
         </div>
     </form>
-</x-layout>
+</x-auth-layout>

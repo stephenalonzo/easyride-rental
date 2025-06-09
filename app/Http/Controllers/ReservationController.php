@@ -2,18 +2,21 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\CloseReservation;
 use App\Models\Country;
 use App\Models\Vehicle;
 use App\Models\Reservation;
 use Illuminate\Http\Request;
 use App\Models\VehicleEquipment;
+use App\Mail\ReservationReminder;
 use App\Http\Requests\UpdateStatus;
+use Illuminate\Support\Facades\Mail;
 use App\Http\Requests\ConfirmPayment;
 use App\Http\Requests\GetReservation;
 use App\Http\Requests\ShowReservation;
+use App\Http\Requests\CloseReservation;
 use App\Http\Requests\StoreReservation;
 use App\Http\Requests\UpdateReservation;
+use App\Mail\ReservationConfirmation;
 use App\Models\VehicleProtectionProduct;
 
 class ReservationController extends Controller
@@ -44,6 +47,7 @@ class ReservationController extends Controller
     {
         $validated = $request->validated();
 
+        $validated['user_id'] = auth()->user()->id;
         $validated['confirm_number'] = bin2hex(random_bytes(10));
         $validated['pickup'] = implode(" ", $validated['pickup']);
         $validated['dropoff'] = implode(" ", $validated['dropoff']);
@@ -54,7 +58,9 @@ class ReservationController extends Controller
 
         Reservation::create($validated);
 
-        return redirect('/')->with([
+        Mail::to($validated['email'])->send(new ReservationConfirmation($validated['confirm_number']));
+
+        return redirect('/reservations/'.$validated['confirm_number'])->with([
             'message' => 'Reservation booked',
             'subMessage' => 'You will receive an email with details of your reservation.'
         ]);
@@ -148,7 +154,7 @@ class ReservationController extends Controller
         $reservations = Reservation::where('id', $validated['reservation'])->get();
 
         foreach ($reservations as $reservation) {
-            return redirect('/reservations/'.$reservation['confirm_number']);
+            return redirect('/reservations/'.$reservation['confirm_number'])->with('message', 'Payment confrimed');
         }
     }
 
@@ -163,13 +169,16 @@ class ReservationController extends Controller
 
         $reservation->delete();
 
-        return redirect('/reservations');
+        return redirect('/reservations')->with('message', 'Reservation closed');
     }
 
     public function cancelReservation(Reservation $reservation)
     {
         $reservation->delete();
 
-        return redirect('/reservations');
+        return redirect('/reservations')->with([
+            'message' => 'Reservation canceled',
+            'subMessage' => "We are sorry our partnership ended. If this is a mistake, please reach us at reservations@easyride.com."
+        ]);
     }
 }

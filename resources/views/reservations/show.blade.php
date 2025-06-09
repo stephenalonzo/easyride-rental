@@ -1,7 +1,9 @@
-<x-layout>
+<x-auth-layout>
     <div class="mx-auto max-w-7xl">
         @csrf
-        <a href="{{ url()->previous() }}" class="btn btn-primary">Back</a>
+        @if (url()->previous() != url()->current())
+            <a href="{{ url()->previous() }}" class="btn btn-primary">Back</a>
+        @endif
         <div class="w-full p-4">
             <div class="px-4 sm:px-0">
                 <div class="flex items-center justify-between">
@@ -12,20 +14,23 @@
                         </p>
                     </div>
                     @role('user')
-                        @switch($reservation->status)
-                            @case(1)
-                                <div class="flex items-center space-x-2">
-                                    <a href="/reservations/{{ $reservation->id }}/edit" class="btn btn-accent">Modify</a>
-                                    <form action="/reservations/{{ $reservation->id }}/delete" method="post">
-                                        @csrf
-                                        @method('DELETE')
-                                        <button class="btn btn-warning">Cancel</button>
-                                    </form>
-                                </div>
-                            @break
+                        @if ($reservation->users->id == auth()->user()->id)
+                            @switch($reservation->status)
+                                @case(1)
+                                    <div class="flex items-center space-x-2">
+                                        <a href="/reservations/{{ $reservation->id }}/edit" class="btn btn-accent">Modify</a>
+                                        <form action="/reservations/{{ $reservation->id }}/delete" method="post">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button class="btn btn-warning"
+                                                onclick="return confirm('Are you sure you want to cancel this reservation? Press OK to continue.')">Cancel</button>
+                                        </form>
+                                    </div>
+                                @break
 
-                            @default
-                        @endswitch
+                                @default
+                            @endswitch
+                        @endif
                     @else
                     @endrole
                     @role('admin')
@@ -231,4 +236,4 @@
             </div>
         </div>
     </div>
-</x-layout>
+</x-auth-layout>

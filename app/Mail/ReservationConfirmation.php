@@ -16,9 +16,9 @@ class ReservationConfirmation extends Mailable
     /**
      * Create a new message instance.
      */
-    public function __construct()
+    public function __construct(public $confirm_number)
     {
-        //
+        $this->confirm_number = $confirm_number;
     }
 
     /**
@@ -37,7 +37,7 @@ class ReservationConfirmation extends Mailable
     public function content(): Content
     {
         return new Content(
-            view: 'view.name',
+            markdown: 'mail.confirmation',
         );
     }
 

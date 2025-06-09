@@ -29,12 +29,11 @@ class MailController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(SendReminder $request)
+    public function sendReminder(SendReminder $request)
     {
         $validated = $request->validated();
-        $reservation = $validated['confirm_number'];
 
-        Mail::to($validated['email'])->send(new ReservationReminder($reservation));
+        Mail::to($validated['email'])->send(new ReservationReminder($validated['confirm_number']));
 
         return back()->with([
             'message' => 'Renter reminded',

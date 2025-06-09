@@ -1,4 +1,4 @@
-<x-layout>
+<x-auth-layout>
     <div class="flex h-full flex-col space-y-16 overflow-x-hidden pt-40 md:pt-45 lg:pt-16">
         <div
             class="mx-auto flex max-w-7xl flex-col items-center gap-8 justify-self-center px-4 text-center sm:px-6 lg:px-8">
@@ -118,4 +118,4 @@
             </div>
         </div>
     </div>
-</x-layout>
+</x-auth-layout>

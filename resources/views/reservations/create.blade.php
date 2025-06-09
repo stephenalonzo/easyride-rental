@@ -1,4 +1,4 @@
-<x-layout>
+<x-auth-layout>
     <form action="/reservations/reserve" method="POST" class="mx-auto max-w-7xl grid grid-cols-4 gap-8">
         @csrf
         <div class="{{ $request->has(['pickup', 'dropoff', 'age']) ? 'col-span-1' : 'hidden' }}">
@@ -614,4 +614,4 @@
 
     <script type="text/javascript"
         src="https://www.cssscript.com/demo/generic-country-state-dropdown-list-countries-js/countries.js"></script>
-</x-layout>
+</x-auth-layout>

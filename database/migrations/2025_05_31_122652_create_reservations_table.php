@@ -16,6 +16,8 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('vehicle_id');
             $table->foreign('vehicle_id')->references('id')->on('vehicles');
+            $table->unsignedBigInteger('user_id');
+            $table->foreign('user_id')->references('id')->on('users');
             $table->longText('confirm_number');
             $table->dateTime('pickup');
             $table->dateTime('dropoff');

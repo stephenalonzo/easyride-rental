@@ -23,8 +23,6 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // User::factory(10)->create();
-
         $admin = User::factory()->create([
             'name' => 'Test User',
             'email' => 'test@example.com',
@@ -502,11 +500,12 @@ class DatabaseSeeder extends Seeder
 
         Reservation::factory()->create([
             'confirm_number' => '23432y234ysd',
+            'user_id' => $user->id,
             'vehicle_id' => $vehicle->id,
             'pickup' => date('Y/m/d H:i', strtotime(now())),
             'dropoff' => date('Y/m/d H:i', strtotime(now())),
             'age' => 25,
-            'status' => 2,
+            'status' => 1,
             'name' => 'John Doe',
             'number' => '670-123-4567',
             'email' => 'john@email.com',

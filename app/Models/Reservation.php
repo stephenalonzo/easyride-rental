@@ -11,6 +11,7 @@ class Reservation extends Model
 
     protected $fillable = [
         'vehicle_id',
+        'user_id',
         'confirm_number',
         'pickup',
         'dropoff',
@@ -38,4 +39,8 @@ class Reservation extends Model
         'opt_protection' => 'array',
         'equipment' => 'array'
     ];
+
+    public function users() {
+        return $this->belongsTo(User::class, 'user_id');
+    }
 }

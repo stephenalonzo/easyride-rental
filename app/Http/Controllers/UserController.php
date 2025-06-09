@@ -6,6 +6,7 @@ use App\Http\Requests\UserAuthentication;
 use App\Http\Requests\UserRegistration;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Spatie\Permission\Contracts\Role;
 
 class UserController extends Controller
 {
@@ -31,10 +32,10 @@ class UserController extends Controller
     public function store(UserRegistration $request)
     {
         $validated = $request->validated();
-
         $validated['password'] = bcrypt($validated['password']);
-
-        User::create($validated);
+        
+        $user = User::create($validated);
+        $user->assignRole('user');
 
         return redirect('/login');
     }
@@ -47,6 +48,8 @@ class UserController extends Controller
 
             return redirect('/');
         }
+
+        return back();
     }
 
     /**
