@@ -1068,7 +1068,7 @@ Constrain images and videos to the parent width and preserve their intrinsic asp
             <p>Please notify EasyRide Rental about the status of your reservation, or simply cancel the
                 reservation.
             </p>
-            <a href="http://127.0.0.1:8000/reservations/{{ $confirm_number }}">View Reservation</a>
+            <a href="/reservations/{{ $confirm_number }}">View Reservation</a>
         </div>
     </div>
 </body>

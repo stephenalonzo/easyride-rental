@@ -1066,7 +1066,7 @@ Constrain images and videos to the parent width and preserve their intrinsic asp
                 with more information about your reservation.</p>
             <p>Confirmation number: <span>{{ $confirm_number }}</span>
             </p>
-            <a href="http://127.0.0.1:8000/reservations/{{ $confirm_number }}">View Reservation</a>
+            <a href="/reservations/{{ $confirm_number }}">View Reservation</a>
         </div>
     </div>
 </body>
