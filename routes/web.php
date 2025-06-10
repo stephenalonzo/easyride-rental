@@ -51,7 +51,7 @@ Route::middleware('guest')->group(function () {
     Route::get('/register', [UserController::class, 'create']);
 
     Route::post('/login/auth', [UserController::class, 'authenticate']);
-    Route::get('/login', [UserController::class, 'index']);
+    Route::get('/login', [UserController::class, 'index'])->name('login');
 });
 
 Route::get('/reservations', [ReservationController::class, 'index']);

@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\UserAuthentication;
-use App\Http\Requests\UserRegistration;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Spatie\Permission\Contracts\Role;
+use App\Http\Requests\UserRegistration;
+use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\Redirect;
+use App\Http\Requests\UserAuthentication;
 
 class UserController extends Controller
 {
@@ -46,7 +48,7 @@ class UserController extends Controller
         if (auth()->attempt($validated)) {
             $request->session()->regenerate();
 
-            return redirect('/');
+            return Redirect::to(Session::get('url.intended'));
         }
 
         return back();
